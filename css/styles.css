@@ -85,6 +85,8 @@
     user-select: none;
     display: flex;
     align-items: center;
+    will-change: left, top;
+    backface-visibility: hidden;
 }
 
 .dark .terminal-cursor {
@@ -113,6 +115,8 @@
     transform: translate(-50%, -50%);
     user-select: none;
     white-space: nowrap;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 .dark .click-particle {
@@ -146,6 +150,31 @@ a:focus-visible,
 button:focus-visible {
     outline: 2px solid #2e7d32;
     outline-offset: 2px;
+}
+
+/* ============================================
+   Modal Performance (GPU Acceleration)
+   ============================================ */
+#modal-content {
+    will-change: transform, opacity;
+}
+
+#modal-backdrop {
+    will-change: opacity;
+}
+
+/* When modal is hidden, disable pointer events on backdrop */
+#contact-modal.hidden #modal-backdrop {
+    pointer-events: none;
+}
+
+/* ============================================
+   Paper Grain Performance
+   ============================================ */
+.grain-overlay {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 /* ============================================

@@ -194,7 +194,7 @@
     });
 
     // ============================================
-    // Custom Terminal Cursor
+    // Custom Terminal Cursor (Performance Optimized)
     // ============================================
 
     // Only enable on non-touch devices
@@ -221,31 +221,48 @@
         var currentX = 0;
         var currentY = 0;
         var blinkAnimation = null;
+        var cursorTicking = false;
+        var cursorAnimating = false;
 
-        // Track mouse position
+        // Throttled mouse position tracking
         document.addEventListener('mousemove', function(e) {
             cursorX = e.clientX;
             cursorY = e.clientY;
             terminalCursor.classList.remove('hidden');
-        });
+
+            // Start animation loop if not already running
+            if (!cursorAnimating) {
+                cursorAnimating = true;
+                requestAnimationFrame(updateCursor);
+            }
+        }, { passive: true });
 
         // Hide cursor when leaving window
         document.addEventListener('mouseleave', function() {
             terminalCursor.classList.add('hidden');
-        });
+            cursorAnimating = false;
+        }, { passive: true });
 
-        // Smooth cursor follow animation
+        // Smooth cursor follow animation (only runs when mouse is moving)
         function updateCursor() {
+            if (!cursorAnimating) return;
+
             // Smooth interpolation
-            currentX += (cursorX - currentX) * 0.15;
-            currentY += (cursorY - currentY) * 0.15;
+            var dx = cursorX - currentX;
+            var dy = cursorY - currentY;
+            currentX += dx * 0.15;
+            currentY += dy * 0.15;
 
             terminalCursor.style.left = currentX + 'px';
             terminalCursor.style.top = currentY + 'px';
 
-            requestAnimationFrame(updateCursor);
+            // Stop animating when cursor is close enough to target
+            if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+                requestAnimationFrame(updateCursor);
+            } else {
+                cursorAnimating = false;
+            }
         }
-        updateCursor();
 
         // Start blinking animation
         function startBlink() {
@@ -275,7 +292,7 @@
                 terminalCursor.classList.add('hovering');
                 startBlink();
             }
-        });
+        }, { passive: true });
 
         document.addEventListener('mouseout', function(e) {
             var clickable = e.target.closest('a, button, [role="button"], input, select, textarea, [onclick], label');
@@ -287,7 +304,7 @@
                     stopBlink();
                 }
             }
-        });
+        }, { passive: true });
 
         // Terminal character burst on click
         var terminalChars = ['>', '>>', '/>', '//', '_', '|', '$', '#', '*'];
