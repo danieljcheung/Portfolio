@@ -306,10 +306,14 @@
             }
         }, { passive: true });
 
-        // Terminal character burst on click
+        // Terminal character burst on click (skip for modal triggers)
         var terminalChars = ['>', '>>', '/>', '//', '_', '|', '$', '#', '*'];
 
         document.addEventListener('click', function(e) {
+            // Skip burst for modal-related elements to reduce lag
+            if (e.target.closest('#contact-modal, #contact-btn-header, #contact-btn-mobile, #contact-btn-footer')) {
+                return;
+            }
             createTerminalBurst(e.clientX, e.clientY);
         });
 
@@ -456,7 +460,7 @@
             contactModal.classList.add('hidden');
             contactModal.classList.remove('flex');
             document.body.style.overflow = '';
-        }, 300);
+        }, 200);
     }
 
     // Open modal triggers
