@@ -169,15 +169,6 @@ button:focus-visible {
 }
 
 /* ============================================
-   Paper Grain Performance
-   ============================================ */
-.grain-overlay {
-    will-change: transform;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-}
-
-/* ============================================
    Print Styles
    ============================================ */
 @media print {
