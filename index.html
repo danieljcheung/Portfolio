@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daniel Cheung - CS Student exploring cybersecurity, AI, and building with code">
+    <title>Daniel Cheung | CS · Security</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2e7d32",
+                        "paper": "#FDFBF7",
+                        "ink": "#1a1e23",
+                        "ruled-line": "#e2e4e8",
+                        "dusty-blue": "#5a8bbd",
+                        "background-light": "#FDFBF7",
+                        "background-dark": "#111921",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "serif": ["IBM Plex Serif", "serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    backgroundImage: {
+                        'paper-grain': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E\")",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Prevent flash of wrong theme -->
+    <script>
+        (function() {
+            var theme = localStorage.getItem('theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+</head>
+
+<body class="bg-paper dark:bg-background-dark text-ink dark:text-paper font-display relative min-h-screen flex flex-col overflow-x-hidden selection:bg-primary/20 selection:text-primary transition-colors duration-0">
+    <!-- Paper grain texture overlay -->
+    <div class="fixed inset-0 pointer-events-none z-50 bg-paper-grain mix-blend-multiply dark:mix-blend-soft-light opacity-60 dark:opacity-30 h-full w-full" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 w-full border-b border-ink/10 dark:border-paper/10 bg-paper/90 dark:bg-background-dark/90 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="logo-icon w-8 h-8 bg-ink dark:bg-paper text-paper dark:text-ink flex items-center justify-center rounded-md font-mono font-bold text-lg shadow-sm group-hover:bg-primary group-hover:text-paper transition-colors">
+                    &gt;
+                </div>
+                <span class="logo-text font-bold text-lg tracking-tight group-hover:text-primary transition-colors">Daniel Cheung</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+                <a class="text-sm font-medium hover:text-primary transition-colors relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform hover:after:origin-bottom-left hover:after:scale-x-100" href="#about">About</a>
+                <a class="text-sm font-medium hover:text-primary transition-colors relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform hover:after:origin-bottom-left hover:after:scale-x-100" href="#projects">Projects</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <!-- Dark Mode Toggle -->
+                <button
+                    id="theme-toggle"
+                    class="p-2 rounded-md border border-ink/20 dark:border-paper/20 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
+                    aria-label="Toggle dark mode"
+                >
+                    <span class="material-symbols-outlined text-[20px] dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined text-[20px] hidden dark:inline">light_mode</span>
+                </button>
+
+                <!-- Contact Button (Desktop) -->
+                <button id="contact-btn-header" class="hidden md:flex items-center gap-2 border border-ink/20 dark:border-paper/20 px-4 py-2 rounded-md hover:border-primary hover:text-primary hover:bg-primary/5 transition-all text-sm font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]">
+                    <span class="material-symbols-outlined text-[18px]">terminal</span>
+                    <span>/contact_me</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button
+                id="mobile-menu-toggle"
+                class="md:hidden p-2 text-ink dark:text-paper hover:text-primary transition-colors"
+                aria-label="Toggle mobile menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+            >
+                <span class="material-symbols-outlined" id="menu-icon">menu</span>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav
+            id="mobile-menu"
+            class="md:hidden hidden border-t border-ink/10 dark:border-paper/10 bg-paper dark:bg-background-dark"
+            aria-label="Mobile navigation"
+        >
+            <div class="px-6 py-4 flex flex-col gap-4">
+                <a class="text-sm font-medium hover:text-primary transition-colors py-2" href="#about">About</a>
+                <a class="text-sm font-medium hover:text-primary transition-colors py-2" href="#projects">Projects</a>
+                <button id="contact-btn-mobile" class="flex items-center justify-center gap-2 border border-ink/20 dark:border-paper/20 px-4 py-2 rounded-md hover:border-primary hover:text-primary hover:bg-primary/5 transition-all text-sm font-bold mt-2">
+                    <span class="material-symbols-outlined text-[18px]">terminal</span>
+                    <span>/contact_me</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-24 py-12 flex flex-col gap-24">
+
+        <!-- Hero Section -->
+        <section class="relative min-h-[70vh] flex flex-col justify-center gap-8 border-l border-dashed border-ink/10 dark:border-paper/10 pl-6 md:pl-12 ml-4 md:ml-0" aria-label="Introduction">
+            <!-- Timeline dot -->
+            <div class="absolute -left-[5px] md:-left-[5px] top-12 w-2.5 h-2.5 bg-primary rounded-full ring-4 ring-paper dark:ring-background-dark" aria-hidden="true"></div>
+
+            <div class="space-y-4 max-w-4xl">
+                <!-- Status Badge -->
+                <p class="animate-on-scroll stagger-1 font-mono text-primary text-sm tracking-widest uppercase mb-4 flex items-center gap-2" data-animation="fade-in-up">
+                    <span class="w-8 h-px bg-primary" aria-hidden="true"></span>
+                    Open to Internships
+                </p>
+
+                <!-- Hero Title -->
+                <h1 class="animate-on-scroll stagger-2 text-6xl md:text-8xl font-black text-ink dark:text-paper tracking-tighter leading-[0.9]" data-animation="fade-in-up">
+                    DANIEL CHEUNG
+                    <span class="block text-2xl md:text-3xl font-display font-medium text-ink/70 dark:text-paper/70 tracking-normal mt-4">CS · SECURITY</span>
+                    <span class="italic font-serif font-light text-5xl md:text-7xl text-primary mt-2 block">building w/ AI</span>
+                </h1>
+            </div>
+
+            <!-- Description -->
+            <div class="animate-on-scroll stagger-3 max-w-xl font-serif text-lg md:text-xl text-ink/80 dark:text-paper/80 leading-relaxed border-l-4 border-primary/20 pl-6 py-2" data-animation="fade-in-up">
+                CS Student exploring cybersecurity, AI, and building with code — including prompt engineering and AI-assisted development.
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="animate-on-scroll stagger-4 flex flex-wrap gap-4 pt-4" data-animation="fade-in-up">
+                <a class="hero-btn-primary flex items-center gap-3 bg-ink dark:bg-paper text-paper dark:text-ink px-6 py-3 rounded-md font-bold hover:bg-primary hover:text-paper transition-all shadow-[4px_4px_0px_0px_rgba(46,125,50,0.3)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]" href="#projects">
+                    Inspect Code
+                    <span class="material-symbols-outlined text-sm">code</span>
+                </a>
+                <a class="hero-btn-outline flex items-center gap-3 bg-transparent border border-ink dark:border-paper text-ink dark:text-paper px-6 py-3 rounded-md font-bold hover:border-primary hover:text-primary transition-colors" href="https://github.com/danieljcheung" target="_blank" rel="noopener noreferrer">
+                    GitHub Repo
+                    <span class="material-symbols-outlined text-sm">terminal</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Section Divider -->
+        <div class="w-full h-px bg-ink/10 dark:bg-paper/10 relative overflow-hidden" aria-hidden="true">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-ink/20 dark:via-paper/20 to-transparent w-full h-full"></div>
+        </div>
+
+        <!-- About Section -->
+        <section class="pt-8" id="about" aria-labelledby="about-heading">
+            <div class="animate-on-scroll flex items-end justify-between mb-8 border-b border-ink/10 dark:border-paper/10 pb-4" data-animation="fade-in-up">
+                <h2 id="about-heading" class="text-2xl font-bold tracking-tight flex items-center gap-3 dark:text-paper">
+                    <span class="font-mono text-primary text-base">01.</span>
+                    About Me
+                </h2>
+            </div>
+
+            <div class="flex flex-col gap-8 ruled-bg pb-8">
+                <div class="prose prose-lg prose-headings:font-display prose-p:font-serif prose-p:text-ink/80 dark:prose-p:text-paper/80 max-w-none">
+                    <h3 class="animate-on-scroll text-3xl font-bold mb-6 dark:text-paper" data-animation="fade-in-up">Decoding the intersection of Security &amp; Intelligence.</h3>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Bio Content -->
+                        <div class="animate-on-scroll" data-animation="fade-in-up">
+                            <p class="mb-4">
+                                I'm a Computer Science undergraduate fascinated by the rapid evolution of artificial intelligence and the critical security challenges that come with it. My approach mixes traditional software engineering principles with modern prompt engineering techniques.
+                            </p>
+                            <p>
+                                Currently, I'm diving deep into Large Language Models (LLMs) and how they can be used to automate secure code generation. I spend my weekends participating in CTF competitions and experimenting with local AI agents.
+                            </p>
+                            <p>
+                                I believe the future of development is AI-assisted, and I'm building the tools to make that future secure and efficient.
+                            </p>
+                        </div>
+
+                        <!-- Education & Certifications Card -->
+                        <div class="animate-on-scroll stagger-2 flex flex-col h-fit bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg shadow-sm relative overflow-hidden p-6 gap-6" data-animation="fade-in-up">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-primary" aria-hidden="true"></div>
+
+                            <!-- Education -->
+                            <div class="flex-1">
+                                <h4 class="font-bold text-lg mb-2 flex items-center gap-2 dark:text-paper">
+                                    <span class="material-symbols-outlined text-primary">school</span>
+                                    Education
+                                </h4>
+                                <ul class="font-serif text-sm text-ink/70 dark:text-paper/70 space-y-2">
+                                    <li class="flex justify-between border-b border-dashed border-ink/10 dark:border-paper/10 pb-1">
+                                        <span>BS Computer Science</span>
+                                        <span class="font-mono">Graduating 2026</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Western University</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Certifications -->
+                            <div class="flex-1 border-t border-dashed border-ink/10 dark:border-paper/10 pt-4">
+                                <h4 class="font-bold text-lg mb-2 flex items-center gap-2 dark:text-paper">
+                                    <span class="material-symbols-outlined text-primary">verified_user</span>
+                                    Certifications
+                                </h4>
+                                <ul class="font-serif text-sm text-ink/70 dark:text-paper/70 space-y-2">
+                                    <li class="flex justify-between border-b border-dashed border-ink/10 dark:border-paper/10 pb-1">
+                                        <span>CompTIA Security+</span>
+                                        <span class="text-ink/40 dark:text-paper/40 font-mono italic">In Progress</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>AWS Cloud Practitioner</span>
+                                        <span class="text-ink/40 dark:text-paper/40 font-mono italic">In Progress</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Skills -->
+                <div class="mt-8">
+                    <h3 class="animate-on-scroll text-xl font-bold mb-4 flex items-center gap-2 dark:text-paper" data-animation="fade-in-up">
+                        <span class="w-4 h-px bg-ink dark:bg-paper" aria-hidden="true"></span>
+                        Technical Inventory
+                    </h3>
+
+                    <div class="animate-on-scroll bg-paper dark:bg-ink border border-ink/20 dark:border-paper/20 rounded shadow-sm relative overflow-hidden" data-animation="fade-in-up">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/40 to-transparent" aria-hidden="true"></div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-ink/10 dark:divide-paper/10">
+                            <!-- Languages -->
+                            <div class="p-6">
+                                <h5 class="font-mono text-xs font-bold uppercase text-ink/50 dark:text-paper/50 mb-4 flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-ink/20 dark:bg-paper/20 rounded-full" aria-hidden="true"></span>
+                                    Languages
+                                </h5>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center gap-3 group">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">check_box</span>
+                                        <span class="font-mono text-sm text-ink/80 dark:text-paper/80 border-b border-ink/10 dark:border-paper/10 w-full pb-0.5 group-hover:border-primary/50 transition-colors">Python</span>
+                                    </li>
+                                    <li class="flex items-center gap-3 group">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">check_box</span>
+                                        <span class="font-mono text-sm text-ink/80 dark:text-paper/80 border-b border-ink/10 dark:border-paper/10 w-full pb-0.5 group-hover:border-primary/50 transition-colors">C++ / C</span>
+                                    </li>
+                                    <li class="flex items-center gap-3 group">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">check_box</span>
+                                        <span class="font-mono text-sm text-ink/80 dark:text-paper/80 border-b border-ink/10 dark:border-paper/10 w-full pb-0.5 group-hover:border-primary/50 transition-colors">JavaScript</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Security Ops -->
+                            <div class="p-6 bg-ink/[0.01]">
+                                <h5 class="font-mono text-xs font-bold uppercase text-ink/50 dark:text-paper/50 mb-4 flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-ink/20 dark:bg-paper/20 rounded-full" aria-hidden="true"></span>
+                                    Security Ops
+                                </h5>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center gap-3 group">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">check_box</span>
+                                        <span class="font-mono text-sm text-ink/80 dark:text-paper/80 border-b border-ink/10 dark:border-paper/10 w-full pb-0.5 group-hover:border-primary/50 transition-colors">Kali Linux</span>
+                                    </li>
+                                    <li class="flex items-center gap-3 group">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">check_box</span>
+                                        <span class="font-mono text-sm text-ink/80 dark:text-paper/80 border-b border-ink/10 dark:border-paper/10 w-full pb-0.5 group-hover:border-primary/50 transition-colors">Wireshark</span>
+                                    </li>
+                                    <li class="flex items-center gap-3 group">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">check_box</span>
+                                        <span class="font-mono text-sm text-ink/80 dark:text-paper/80 border-b border-ink/10 dark:border-paper/10 w-full pb-0.5 group-hover:border-primary/50 transition-colors">Burp Suite</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- AI / ML -->
+                            <div class="p-6">
+                                <h5 class="font-mono text-xs font-bold uppercase text-ink/50 dark:text-paper/50 mb-4 flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-ink/20 dark:bg-paper/20 rounded-full" aria-hidden="true"></span>
+                                    AI / ML
+                                </h5>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center gap-3 group">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">check_box</span>
+                                        <span class="font-mono text-sm text-ink/80 dark:text-paper/80 border-b border-ink/10 dark:border-paper/10 w-full pb-0.5 group-hover:border-primary/50 transition-colors">Claude API</span>
+                                    </li>
+                                    <li class="flex items-center gap-3 group">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">check_box</span>
+                                        <span class="font-mono text-sm text-ink/80 dark:text-paper/80 border-b border-ink/10 dark:border-paper/10 w-full pb-0.5 group-hover:border-primary/50 transition-colors">OpenAI API</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="pt-8" id="projects" aria-labelledby="projects-heading">
+            <div class="animate-on-scroll flex items-end justify-between mb-12 border-b border-ink/10 dark:border-paper/10 pb-4" data-animation="fade-in-up">
+                <h2 id="projects-heading" class="text-2xl font-bold tracking-tight flex items-center gap-3 dark:text-paper">
+                    <span class="font-mono text-primary text-base">02.</span>
+                    Selected Projects
+                </h2>
+                <a class="hidden md:flex items-center gap-1 font-mono text-xs hover:text-primary uppercase tracking-wider transition-colors" href="https://github.com/danieljcheung">
+                    View All Repos
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
+            </div>
+
+            <!-- Project Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Project Card 1: LLM Code Assistant -->
+                <article class="animate-on-scroll stagger-1 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
+                    <div class="w-full aspect-video bg-gray-100 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative">
+                        <div class="absolute top-2 right-2 z-10">
+                            <span class="material-symbols-outlined text-white drop-shadow-md">terminal</span>
+                        </div>
+                        <div
+                            class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                            role="img"
+                            aria-label="Abstract code visualization with glowing nodes"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAYmouXx2YBk9Ffw65r_8rGaboeFtnPsL8u5d-eI_x2U4lnIIve8Pin5V9BWskaVVuRhE5_61i8l19k81qsQbmx_2fEon38AhhJbKVyaHXIZ4JydQw4UWEhM5U33dWunQWx0k4Q7bGqB-ex8_1SQAIGjxkxVFHYNPE4aDn5HeaoREplCD3e_U-4pJMGQxF7DZZRgkk_NSpn3inDScIWABosWc0NfHtQy1WV52vrhbwoMs27Hqz0zMaTA0fkZqJXjdGinZ4uZZLDFVem');">
+                        </div>
+                    </div>
+                    <div class="px-4 pb-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">LLM Code Assistant</h3>
+                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="#" aria-label="Open LLM Code Assistant project">
+                                <span class="material-symbols-outlined text-xl">open_in_new</span>
+                            </a>
+                        </div>
+                        <p class="font-serif text-sm text-ink/70 dark:text-paper/70 mb-4 line-clamp-3">
+                            A CLI tool that leverages OpenAI's API to generate boilerplate code and unit tests directly in your terminal. Optimized for developer workflow.
+                        </p>
+                        <div class="mt-auto flex flex-wrap gap-2">
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Python</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">OpenAI API</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Typer</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project Card 2: NetPacket Sniffer -->
+                <article class="animate-on-scroll stagger-2 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
+                    <div class="w-full aspect-video bg-gray-100 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative">
+                        <div class="absolute top-2 right-2 z-10">
+                            <span class="material-symbols-outlined text-white drop-shadow-md">security</span>
+                        </div>
+                        <div
+                            class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                            role="img"
+                            aria-label="Digital lock interface concept"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC9VGQahp3VGpyWfLfVwGabu_bpabJMLkC-6BradAC8Vx_CpXKCOg6D1HCqddCtVKfnAMJmuk3lsHn96-XynkvMuvlw7WGHxZeGoI1S5ipQZy_Hg_g9TA-llcldGSCEEl2baGIUj4DZcrXPazwXeVSDZGpbMAztpWQt-pMsnEoNR4RQMQx9vbucfZ2mPPKH-5Z9dbuT2vT0v5WFddl07shFAqXmFUNsRzrwGbB0gF5oQRB0NmA2JJZ8Y-iACfiHKvBxqGkXAJ7_tc1p');">
+                        </div>
+                    </div>
+                    <div class="px-4 pb-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">NetPacket Sniffer</h3>
+                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="#" aria-label="Open NetPacket Sniffer project">
+                                <span class="material-symbols-outlined text-xl">open_in_new</span>
+                            </a>
+                        </div>
+                        <p class="font-serif text-sm text-ink/70 dark:text-paper/70 mb-4 line-clamp-3">
+                            A lightweight network packet analyzer built from scratch. Detects suspicious traffic patterns and logs potential vulnerabilities in real-time.
+                        </p>
+                        <div class="mt-auto flex flex-wrap gap-2">
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">C++</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Wireshark</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Networking</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project Card 3: Prompt Engineer Guide -->
+                <article class="animate-on-scroll stagger-3 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
+                    <div class="w-full aspect-video bg-gray-100 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative">
+                        <div class="absolute top-2 right-2 z-10">
+                            <span class="material-symbols-outlined text-white drop-shadow-md">smart_toy</span>
+                        </div>
+                        <div
+                            class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                            role="img"
+                            aria-label="Neural network nodes connecting"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVsLcRX68VaNUEsNoa2kLvsiaUOj2vSVpqP-fdfAGW4mPol0kg9BXosLAaI9CeAOBjUxJKA5AVLtSgkXRjTkj7QhGuuHTGEokok7AfBWBKLxMRO4ncdynY7lDhmFqq1YavUq1PZEvgekzyO6OaVfZhrg4hmCmVrMYvkLNJnW3dREiv-WjLBnQ6V-_e6STdwDk9cOV0lJXtfWF92r-o07J0a641r3mUFDpe0QFcBuMFxCPBs4Gbau1lwAMHffxgTH1RV8bpHP4Ow23q');">
+                        </div>
+                    </div>
+                    <div class="px-4 pb-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">Prompt Engineer Guide</h3>
+                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="#" aria-label="Open Prompt Engineer Guide project">
+                                <span class="material-symbols-outlined text-xl">open_in_new</span>
+                            </a>
+                        </div>
+                        <p class="font-serif text-sm text-ink/70 dark:text-paper/70 mb-4 line-clamp-3">
+                            An open-source repository and interactive website documenting advanced prompt engineering techniques for developers building on top of LLMs.
+                        </p>
+                        <div class="mt-auto flex flex-wrap gap-2">
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">React</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Markdown</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Vercel</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Footer / Contact Section -->
+        <footer id="contact" class="mt-auto border-t-2 border-ink dark:border-paper pt-12 pb-12">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-12">
+                <div class="max-w-md">
+                    <h2 class="animate-on-scroll text-3xl font-bold mb-4 dark:text-paper" data-animation="fade-in-up">Let's secure the future.</h2>
+                    <p class="animate-on-scroll stagger-1 font-serif text-ink/70 dark:text-paper/70 mb-8" data-animation="fade-in-up">
+                        I'm always looking to collaborate on open-source AI safety projects or discuss the latest in cybersecurity. Drop me a line!
+                    </p>
+                    <button id="contact-btn-footer" class="animate-on-scroll stagger-2 inline-flex items-center justify-center bg-primary text-white font-bold py-3 px-8 rounded hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20" data-animation="fade-in-up">
+                        Initiate Handshake
+                    </button>
+                </div>
+
+                <div class="flex flex-col gap-6">
+                    <!-- Social Links -->
+                    <nav class="animate-on-scroll stagger-3 flex flex-wrap gap-4 md:gap-6" aria-label="Social links" data-animation="fade-in-up">
+                        <a class="font-mono text-sm hover:text-primary hover:underline underline-offset-4 decoration-primary decoration-2 transition-colors" href="#" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+                        <a class="font-mono text-sm hover:text-primary hover:underline underline-offset-4 decoration-primary decoration-2 transition-colors" href="https://github.com/danieljcheung" target="_blank" rel="noopener noreferrer">GITHUB</a>
+                        <a class="font-mono text-sm hover:text-primary hover:underline underline-offset-4 decoration-primary decoration-2 transition-colors" href="#" target="_blank" rel="noopener noreferrer">HACKTHEBOX</a>
+                        <a class="font-mono text-sm hover:text-primary hover:underline underline-offset-4 decoration-primary decoration-2 transition-colors" href="#" target="_blank" rel="noopener noreferrer">TWITTER</a>
+                    </nav>
+
+                    <!-- Copyright -->
+                    <div class="text-left md:text-right mt-auto">
+                        <p class="font-mono text-xs text-ink/40 dark:text-paper/40">
+                            Designed &amp; Built by Daniel Cheung.<br>
+                            &copy; <span id="current-year">2024</span> All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Contact Modal -->
+    <div
+        id="contact-modal"
+        class="fixed inset-0 z-[60] hidden items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+    >
+        <!-- Backdrop -->
+        <div id="modal-backdrop" class="absolute inset-0 bg-ink/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+        <!-- Modal Content -->
+        <div id="modal-content" class="relative bg-paper dark:bg-ink border border-ink/20 dark:border-paper/20 rounded-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] max-w-md w-full p-8 opacity-0 scale-95 transition-all duration-300">
+            <!-- Close Button -->
+            <button
+                id="modal-close"
+                class="absolute top-4 right-4 text-ink/40 dark:text-paper/40 hover:text-primary transition-colors p-1"
+                aria-label="Close modal"
+            >
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <!-- Green accent bar -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary/20 rounded-t-lg"></div>
+
+            <!-- Content -->
+            <h2 id="modal-title" class="text-2xl font-bold mb-2 dark:text-paper">Let's connect</h2>
+            <p class="font-serif text-ink/70 dark:text-paper/70 mb-6">
+                Prefer email? Reach me at <span class="font-mono text-primary">danieljcheung@proton.me</span>
+            </p>
+
+            <!-- Links -->
+            <div class="space-y-3">
+                <a
+                    href="mailto:danieljcheung@proton.me"
+                    class="flex items-center gap-3 font-mono text-sm text-ink/80 dark:text-paper/80 hover:text-primary transition-colors group"
+                >
+                    <span class="material-symbols-outlined text-[20px] text-primary">mail</span>
+                    <span class="border-b border-ink/10 dark:border-paper/10 group-hover:border-primary/50 transition-colors pb-0.5 flex-1">danieljcheung@proton.me</span>
+                </a>
+                <a
+                    href="https://github.com/danieljcheung"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-3 font-mono text-sm text-ink/80 dark:text-paper/80 hover:text-primary transition-colors group"
+                >
+                    <span class="material-symbols-outlined text-[20px] text-primary">code</span>
+                    <span class="border-b border-ink/10 dark:border-paper/10 group-hover:border-primary/50 transition-colors pb-0.5 flex-1">github.com/danieljcheung</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anime.js Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
