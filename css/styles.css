@@ -179,10 +179,6 @@ button:focus-visible {
     will-change: opacity;
 }
 
-#gallery-image {
-    will-change: opacity;
-}
-
 /* When gallery modal is hidden, disable pointer events */
 #gallery-modal.hidden #gallery-backdrop {
     pointer-events: none;
@@ -196,6 +192,84 @@ button:focus-visible {
 @media (hover: none) and (pointer: coarse) {
     .gallery-trigger {
         cursor: pointer !important;
+    }
+}
+
+/* ============================================
+   Gallery Carousel Styles
+   ============================================ */
+#gallery-carousel {
+    perspective: 1000px;
+}
+
+.carousel-item {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transition: none;
+}
+
+.carousel-item img {
+    display: block;
+    max-width: 90vw;
+}
+
+/* Previous image - left side peek */
+.carousel-item.carousel-prev {
+    transform: translateX(-85%) scale(0.75);
+    opacity: 0.5;
+    z-index: 1;
+}
+
+/* Current image - center, full size */
+.carousel-item.carousel-current {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    z-index: 10;
+}
+
+/* Next image - right side peek */
+.carousel-item.carousel-next {
+    transform: translateX(85%) scale(0.75);
+    opacity: 0.5;
+    z-index: 1;
+}
+
+/* Hidden state for images entering/exiting */
+.carousel-item.carousel-hidden-left {
+    transform: translateX(-170%) scale(0.6);
+    opacity: 0;
+    z-index: 0;
+}
+
+.carousel-item.carousel-hidden-right {
+    transform: translateX(170%) scale(0.6);
+    opacity: 0;
+    z-index: 0;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .carousel-item.carousel-prev {
+        transform: translateX(-90%) scale(0.65);
+        opacity: 0.4;
+    }
+
+    .carousel-item.carousel-next {
+        transform: translateX(90%) scale(0.65);
+        opacity: 0.4;
+    }
+
+    .carousel-item img {
+        max-width: 85vw;
+    }
+
+    .carousel-item.carousel-current img {
+        max-height: 75vh;
+    }
+
+    .carousel-item.carousel-prev img,
+    .carousel-item.carousel-next img {
+        max-height: 55vh;
     }
 }
 

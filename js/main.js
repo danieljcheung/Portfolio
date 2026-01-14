@@ -566,7 +566,7 @@
     }
 
     // ============================================
-    // Image Gallery Modal
+    // Image Gallery Modal (Carousel)
     // ============================================
     var galleryModal = document.getElementById('gallery-modal');
     var galleryBackdrop = document.getElementById('gallery-backdrop');
@@ -574,13 +574,66 @@
     var galleryClose = document.getElementById('gallery-close');
     var galleryPrev = document.getElementById('gallery-prev');
     var galleryNext = document.getElementById('gallery-next');
-    var galleryImage = document.getElementById('gallery-image');
     var galleryCounter = document.getElementById('gallery-counter');
     var galleryTriggers = document.querySelectorAll('.gallery-trigger');
+
+    // Carousel elements
+    var carouselPrev = document.getElementById('carousel-prev');
+    var carouselCurrent = document.getElementById('carousel-current');
+    var carouselNext = document.getElementById('carousel-next');
 
     var galleryImages = [];
     var currentImageIndex = 0;
     var galleryIsAnimating = false;
+
+    // Get index with wrapping (infinite loop)
+    function getWrappedIndex(index) {
+        var len = galleryImages.length;
+        return ((index % len) + len) % len;
+    }
+
+    // Load image into a carousel item
+    function loadCarouselImage(element, index) {
+        if (!element || galleryImages.length === 0) return;
+        var img = element.querySelector('img');
+        if (img) {
+            img.src = galleryImages[getWrappedIndex(index)];
+        }
+    }
+
+    // Update counter display
+    function updateCounter() {
+        if (galleryCounter) {
+            galleryCounter.textContent = (currentImageIndex + 1) + ' / ' + galleryImages.length;
+        }
+    }
+
+    // Set initial carousel positions (no animation)
+    function initCarousel() {
+        // Load images
+        loadCarouselImage(carouselPrev, currentImageIndex - 1);
+        loadCarouselImage(carouselCurrent, currentImageIndex);
+        loadCarouselImage(carouselNext, currentImageIndex + 1);
+
+        // Reset positions using CSS classes
+        if (carouselPrev) {
+            carouselPrev.style.transform = '';
+            carouselPrev.style.opacity = '';
+            carouselPrev.className = 'carousel-item carousel-prev absolute';
+        }
+        if (carouselCurrent) {
+            carouselCurrent.style.transform = '';
+            carouselCurrent.style.opacity = '';
+            carouselCurrent.className = 'carousel-item carousel-current absolute';
+        }
+        if (carouselNext) {
+            carouselNext.style.transform = '';
+            carouselNext.style.opacity = '';
+            carouselNext.className = 'carousel-item carousel-next absolute';
+        }
+
+        updateCounter();
+    }
 
     function openGallery(images, startIndex) {
         if (!galleryModal || galleryIsAnimating) return;
@@ -595,8 +648,8 @@
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
 
-        // Load first image
-        updateGalleryImage(false);
+        // Initialize carousel
+        initCarousel();
 
         // Animate in
         if (typeof anime !== 'undefined') {
@@ -658,50 +711,116 @@
         }
     }
 
-    function updateGalleryImage(animate) {
-        if (!galleryImage || galleryImages.length === 0) return;
+    // Carousel animation positions
+    var positions = {
+        hiddenLeft: { translateX: '-170%', scale: 0.6, opacity: 0, zIndex: 0 },
+        prev: { translateX: '-85%', scale: 0.75, opacity: 0.5, zIndex: 1 },
+        current: { translateX: '0%', scale: 1, opacity: 1, zIndex: 10 },
+        next: { translateX: '85%', scale: 0.75, opacity: 0.5, zIndex: 1 },
+        hiddenRight: { translateX: '170%', scale: 0.6, opacity: 0, zIndex: 0 }
+    };
 
-        var newSrc = galleryImages[currentImageIndex];
+    function animateToPosition(element, position, duration, easing) {
+        if (!element || typeof anime === 'undefined') return null;
 
-        // Update counter
-        if (galleryCounter) {
-            galleryCounter.textContent = (currentImageIndex + 1) + ' / ' + galleryImages.length;
-        }
+        element.style.zIndex = position.zIndex;
 
-        if (animate && typeof anime !== 'undefined') {
-            // Fade out, change image, fade in
-            anime({
-                targets: galleryImage,
-                opacity: [1, 0],
-                duration: 150,
-                easing: 'easeOutQuad',
-                complete: function() {
-                    galleryImage.src = newSrc;
-                    galleryImage.onload = function() {
-                        anime({
-                            targets: galleryImage,
-                            opacity: [0, 1],
-                            duration: 200,
-                            easing: 'easeOutQuad'
-                        });
-                    };
-                }
-            });
-        } else {
-            galleryImage.src = newSrc;
-        }
+        return anime({
+            targets: element,
+            translateX: position.translateX,
+            scale: position.scale,
+            opacity: position.opacity,
+            duration: duration,
+            easing: easing || 'easeOutQuad'
+        });
     }
 
     function nextImage() {
         if (galleryIsAnimating || galleryImages.length <= 1) return;
-        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-        updateGalleryImage(true);
+        galleryIsAnimating = true;
+
+        var duration = 400;
+        var easing = 'easeOutCubic';
+
+        // Current -> Prev (slide left, shrink, fade)
+        animateToPosition(carouselCurrent, positions.prev, duration, easing);
+
+        // Next -> Current (slide to center, grow, brighten)
+        animateToPosition(carouselNext, positions.current, duration, easing);
+
+        // Prev -> Hidden left (slide out)
+        animateToPosition(carouselPrev, positions.hiddenLeft, duration, easing);
+
+        // After animation, update indices and reset
+        setTimeout(function() {
+            currentImageIndex = getWrappedIndex(currentImageIndex + 1);
+
+            // Swap references: prev becomes the old current, current becomes old next
+            var tempPrev = carouselPrev;
+            carouselPrev = carouselCurrent;
+            carouselCurrent = carouselNext;
+            carouselNext = tempPrev;
+
+            // Load new next image and position it on the right (hidden)
+            loadCarouselImage(carouselNext, currentImageIndex + 1);
+            carouselNext.style.transform = 'translateX(170%) scale(0.6)';
+            carouselNext.style.opacity = '0';
+            carouselNext.style.zIndex = '0';
+
+            // Immediately snap to next position (ready for next animation)
+            requestAnimationFrame(function() {
+                carouselNext.style.transform = 'translateX(85%) scale(0.75)';
+                carouselNext.style.opacity = '0.5';
+                carouselNext.style.zIndex = '1';
+            });
+
+            updateCounter();
+            galleryIsAnimating = false;
+        }, duration + 50);
     }
 
     function prevImage() {
         if (galleryIsAnimating || galleryImages.length <= 1) return;
-        currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-        updateGalleryImage(true);
+        galleryIsAnimating = true;
+
+        var duration = 400;
+        var easing = 'easeOutCubic';
+
+        // Current -> Next (slide right, shrink, fade)
+        animateToPosition(carouselCurrent, positions.next, duration, easing);
+
+        // Prev -> Current (slide to center, grow, brighten)
+        animateToPosition(carouselPrev, positions.current, duration, easing);
+
+        // Next -> Hidden right (slide out)
+        animateToPosition(carouselNext, positions.hiddenRight, duration, easing);
+
+        // After animation, update indices and reset
+        setTimeout(function() {
+            currentImageIndex = getWrappedIndex(currentImageIndex - 1);
+
+            // Swap references: next becomes the old current, current becomes old prev
+            var tempNext = carouselNext;
+            carouselNext = carouselCurrent;
+            carouselCurrent = carouselPrev;
+            carouselPrev = tempNext;
+
+            // Load new prev image and position it on the left (hidden)
+            loadCarouselImage(carouselPrev, currentImageIndex - 1);
+            carouselPrev.style.transform = 'translateX(-170%) scale(0.6)';
+            carouselPrev.style.opacity = '0';
+            carouselPrev.style.zIndex = '0';
+
+            // Immediately snap to prev position (ready for next animation)
+            requestAnimationFrame(function() {
+                carouselPrev.style.transform = 'translateX(-85%) scale(0.75)';
+                carouselPrev.style.opacity = '0.5';
+                carouselPrev.style.zIndex = '1';
+            });
+
+            updateCounter();
+            galleryIsAnimating = false;
+        }, duration + 50);
     }
 
     // Gallery trigger click handlers
@@ -725,9 +844,20 @@
         galleryClose.addEventListener('click', closeGallery);
     }
 
-    // Backdrop click to close
+    // Backdrop click to close (but not on carousel items)
     if (galleryBackdrop) {
         galleryBackdrop.addEventListener('click', closeGallery);
+    }
+
+    // Also close when clicking on the carousel container (outside images)
+    var galleryCarousel = document.getElementById('gallery-carousel');
+    if (galleryCarousel) {
+        galleryCarousel.addEventListener('click', function(e) {
+            // Only close if clicking directly on the carousel container, not on images
+            if (e.target === galleryCarousel) {
+                closeGallery();
+            }
+        });
     }
 
     // Navigation buttons
