@@ -264,6 +264,43 @@
             }
         }
 
+        // Start cursor glow pulse animation
+        var glowAnimation = null;
+        function startGlowPulse() {
+            if (glowAnimation || typeof anime === 'undefined') return;
+
+            // Check if dark mode is active for color
+            var isDark = document.documentElement.classList.contains('dark');
+            var glowColor = isDark ? '#4caf50' : '#2e7d32';
+
+            glowAnimation = anime({
+                targets: terminalCursor,
+                textShadow: [
+                    '0 0 5px ' + glowColor + ', 0 0 10px ' + glowColor + ', 0 0 20px ' + glowColor,
+                    '0 0 10px ' + glowColor + ', 0 0 25px ' + glowColor + ', 0 0 40px ' + glowColor,
+                    '0 0 5px ' + glowColor + ', 0 0 10px ' + glowColor + ', 0 0 20px ' + glowColor
+                ],
+                duration: 2000,
+                loop: true,
+                easing: 'easeInOutSine'
+            });
+        }
+
+        // Start glow pulse immediately
+        startGlowPulse();
+
+        // Restart glow animation when theme changes
+        var originalApplyTheme = applyTheme;
+        applyTheme = function(theme) {
+            originalApplyTheme(theme);
+            // Restart glow with new color after theme change
+            if (glowAnimation) {
+                glowAnimation.pause();
+                glowAnimation = null;
+            }
+            setTimeout(startGlowPulse, 100);
+        };
+
         // Start blinking animation
         function startBlink() {
             if (blinkAnimation) return;

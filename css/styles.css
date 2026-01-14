@@ -78,19 +78,27 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 18px;
     font-weight: bold;
-    color: #1a1e23;
+    color: #2e7d32;
     pointer-events: none;
     z-index: 10000;
     transform: translate(-50%, -50%);
     user-select: none;
     display: flex;
     align-items: center;
-    will-change: left, top;
+    will-change: left, top, text-shadow;
     backface-visibility: hidden;
+    text-shadow:
+        0 0 5px #2e7d32,
+        0 0 10px #2e7d32,
+        0 0 20px #2e7d32;
 }
 
 .dark .terminal-cursor {
-    color: #FDFBF7;
+    color: #4caf50;
+    text-shadow:
+        0 0 5px #4caf50,
+        0 0 10px #4caf50,
+        0 0 20px #4caf50;
 }
 
 /* Blinking underscore */
