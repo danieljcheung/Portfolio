@@ -905,6 +905,59 @@
         galleryNext.addEventListener('click', nextImage);
     }
 
+    // Click on side images to navigate (using event delegation)
+    if (galleryCarousel) {
+        galleryCarousel.addEventListener('click', function(e) {
+            var target = e.target.closest('.carousel-item');
+            if (!target) return;
+
+            // Check if it's a side image by its current transform position
+            var style = window.getComputedStyle(target);
+            var transform = style.transform || style.webkitTransform;
+
+            // Parse the transform matrix to get translateX
+            if (transform && transform !== 'none') {
+                var matrix = new DOMMatrix(transform);
+                var translateX = matrix.m41;
+
+                // If translateX is significantly negative, it's the prev image
+                if (translateX < -100) {
+                    e.stopPropagation();
+                    prevImage();
+                }
+                // If translateX is significantly positive, it's the next image
+                else if (translateX > 100) {
+                    e.stopPropagation();
+                    nextImage();
+                }
+            }
+        });
+
+        // Keyboard support for side images
+        galleryCarousel.addEventListener('keydown', function(e) {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+
+            var target = e.target.closest('.carousel-item');
+            if (!target) return;
+
+            var style = window.getComputedStyle(target);
+            var transform = style.transform || style.webkitTransform;
+
+            if (transform && transform !== 'none') {
+                var matrix = new DOMMatrix(transform);
+                var translateX = matrix.m41;
+
+                if (translateX < -100) {
+                    e.preventDefault();
+                    prevImage();
+                } else if (translateX > 100) {
+                    e.preventDefault();
+                    nextImage();
+                }
+            }
+        });
+    }
+
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
         if (!galleryModal || galleryModal.classList.contains('hidden')) return;
