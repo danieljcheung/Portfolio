@@ -565,4 +565,194 @@
         });
     }
 
+    // ============================================
+    // Image Gallery Modal
+    // ============================================
+    var galleryModal = document.getElementById('gallery-modal');
+    var galleryBackdrop = document.getElementById('gallery-backdrop');
+    var galleryContent = document.getElementById('gallery-content');
+    var galleryClose = document.getElementById('gallery-close');
+    var galleryPrev = document.getElementById('gallery-prev');
+    var galleryNext = document.getElementById('gallery-next');
+    var galleryImage = document.getElementById('gallery-image');
+    var galleryCounter = document.getElementById('gallery-counter');
+    var galleryTriggers = document.querySelectorAll('.gallery-trigger');
+
+    var galleryImages = [];
+    var currentImageIndex = 0;
+    var galleryIsAnimating = false;
+
+    function openGallery(images, startIndex) {
+        if (!galleryModal || galleryIsAnimating) return;
+
+        galleryImages = images;
+        currentImageIndex = startIndex || 0;
+
+        // Show modal container
+        galleryModal.classList.remove('hidden');
+        galleryModal.classList.add('flex');
+
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+
+        // Load first image
+        updateGalleryImage(false);
+
+        // Animate in
+        if (typeof anime !== 'undefined') {
+            galleryIsAnimating = true;
+            anime({
+                targets: galleryBackdrop,
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutQuad'
+            });
+            anime({
+                targets: galleryContent,
+                opacity: [0, 1],
+                scale: [0.95, 1],
+                duration: 400,
+                easing: 'easeOutQuad',
+                complete: function() {
+                    galleryIsAnimating = false;
+                    galleryClose.focus();
+                }
+            });
+        } else {
+            galleryBackdrop.style.opacity = '1';
+            galleryContent.style.opacity = '1';
+            galleryClose.focus();
+        }
+    }
+
+    function closeGallery() {
+        if (!galleryModal || galleryIsAnimating) return;
+
+        if (typeof anime !== 'undefined') {
+            galleryIsAnimating = true;
+            anime({
+                targets: galleryBackdrop,
+                opacity: [1, 0],
+                duration: 200,
+                easing: 'easeOutQuad'
+            });
+            anime({
+                targets: galleryContent,
+                opacity: [1, 0],
+                scale: [1, 0.95],
+                duration: 200,
+                easing: 'easeOutQuad',
+                complete: function() {
+                    galleryModal.classList.add('hidden');
+                    galleryModal.classList.remove('flex');
+                    document.body.style.overflow = '';
+                    galleryIsAnimating = false;
+                }
+            });
+        } else {
+            galleryBackdrop.style.opacity = '0';
+            galleryContent.style.opacity = '0';
+            galleryModal.classList.add('hidden');
+            galleryModal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+    }
+
+    function updateGalleryImage(animate) {
+        if (!galleryImage || galleryImages.length === 0) return;
+
+        var newSrc = galleryImages[currentImageIndex];
+
+        // Update counter
+        if (galleryCounter) {
+            galleryCounter.textContent = (currentImageIndex + 1) + ' / ' + galleryImages.length;
+        }
+
+        if (animate && typeof anime !== 'undefined') {
+            // Fade out, change image, fade in
+            anime({
+                targets: galleryImage,
+                opacity: [1, 0],
+                duration: 150,
+                easing: 'easeOutQuad',
+                complete: function() {
+                    galleryImage.src = newSrc;
+                    galleryImage.onload = function() {
+                        anime({
+                            targets: galleryImage,
+                            opacity: [0, 1],
+                            duration: 200,
+                            easing: 'easeOutQuad'
+                        });
+                    };
+                }
+            });
+        } else {
+            galleryImage.src = newSrc;
+        }
+    }
+
+    function nextImage() {
+        if (galleryIsAnimating || galleryImages.length <= 1) return;
+        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+        updateGalleryImage(true);
+    }
+
+    function prevImage() {
+        if (galleryIsAnimating || galleryImages.length <= 1) return;
+        currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+        updateGalleryImage(true);
+    }
+
+    // Gallery trigger click handlers
+    galleryTriggers.forEach(function(trigger) {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            var imagesData = trigger.getAttribute('data-images');
+            if (imagesData) {
+                try {
+                    var images = JSON.parse(imagesData);
+                    openGallery(images, 0);
+                } catch (err) {
+                    console.error('Invalid gallery images data:', err);
+                }
+            }
+        });
+    });
+
+    // Close button
+    if (galleryClose) {
+        galleryClose.addEventListener('click', closeGallery);
+    }
+
+    // Backdrop click to close
+    if (galleryBackdrop) {
+        galleryBackdrop.addEventListener('click', closeGallery);
+    }
+
+    // Navigation buttons
+    if (galleryPrev) {
+        galleryPrev.addEventListener('click', prevImage);
+    }
+    if (galleryNext) {
+        galleryNext.addEventListener('click', nextImage);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (!galleryModal || galleryModal.classList.contains('hidden')) return;
+
+        switch (e.key) {
+            case 'Escape':
+                closeGallery();
+                break;
+            case 'ArrowLeft':
+                prevImage();
+                break;
+            case 'ArrowRight':
+                nextImage();
+                break;
+        }
+    });
+
 })();

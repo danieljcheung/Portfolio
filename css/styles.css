@@ -169,6 +169,37 @@ button:focus-visible {
 }
 
 /* ============================================
+   Gallery Modal Performance
+   ============================================ */
+#gallery-content {
+    will-change: transform, opacity;
+}
+
+#gallery-backdrop {
+    will-change: opacity;
+}
+
+#gallery-image {
+    will-change: opacity;
+}
+
+/* When gallery modal is hidden, disable pointer events */
+#gallery-modal.hidden #gallery-backdrop {
+    pointer-events: none;
+}
+
+/* Gallery button styles for touch devices */
+.gallery-trigger {
+    cursor: pointer !important;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .gallery-trigger {
+        cursor: pointer !important;
+    }
+}
+
+/* ============================================
    Print Styles
    ============================================ */
 @media print {

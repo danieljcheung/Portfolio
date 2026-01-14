@@ -339,97 +339,87 @@
             </div>
 
             <!-- Project Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
-                <!-- Project Card 1: LLM Code Assistant -->
+                <!-- Project Card 1: Squish -->
                 <article class="animate-on-scroll stagger-1 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
-                    <div class="w-full aspect-video bg-gray-100 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative">
-                        <div class="absolute top-2 right-2 z-10">
-                            <span class="material-symbols-outlined text-white drop-shadow-md">terminal</span>
+                    <button
+                        class="w-full aspect-video bg-gray-100 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative gallery-trigger"
+                        data-project="squish"
+                        data-images='["assets/projects/hero-squish.png","assets/projects/1-squish.png","assets/projects/2-squish.png","assets/projects/3-squish.png","assets/projects/4-squish.png","assets/projects/5-squish.png","assets/projects/6-squish.png"]'
+                        aria-label="View Squish gallery (7 images)"
+                    >
+                        <!-- Image count badge -->
+                        <div class="absolute top-2 left-2 z-10 bg-ink/70 dark:bg-paper/70 text-paper dark:text-ink text-xs font-mono px-2 py-1 rounded flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">photo_library</span>
+                            <span>7 images</span>
                         </div>
-                        <div
-                            class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
-                            role="img"
-                            aria-label="Abstract code visualization with glowing nodes"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAYmouXx2YBk9Ffw65r_8rGaboeFtnPsL8u5d-eI_x2U4lnIIve8Pin5V9BWskaVVuRhE5_61i8l19k81qsQbmx_2fEon38AhhJbKVyaHXIZ4JydQw4UWEhM5U33dWunQWx0k4Q7bGqB-ex8_1SQAIGjxkxVFHYNPE4aDn5HeaoREplCD3e_U-4pJMGQxF7DZZRgkk_NSpn3inDScIWABosWc0NfHtQy1WV52vrhbwoMs27Hqz0zMaTA0fkZqJXjdGinZ4uZZLDFVem');">
-                        </div>
-                    </div>
-                    <div class="px-4 pb-6 flex flex-col flex-1">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">LLM Code Assistant</h3>
-                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="#" aria-label="Open LLM Code Assistant project">
-                                <span class="material-symbols-outlined text-xl">open_in_new</span>
-                            </a>
-                        </div>
-                        <p class="font-serif text-sm text-ink/70 dark:text-paper/70 mb-4 line-clamp-3">
-                            A CLI tool that leverages OpenAI's API to generate boilerplate code and unit tests directly in your terminal. Optimized for developer workflow.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-2">
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Python</span>
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">OpenAI API</span>
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Typer</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Project Card 2: NetPacket Sniffer -->
-                <article class="animate-on-scroll stagger-2 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
-                    <div class="w-full aspect-video bg-gray-100 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative">
-                        <div class="absolute top-2 right-2 z-10">
-                            <span class="material-symbols-outlined text-white drop-shadow-md">security</span>
-                        </div>
-                        <div
-                            class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
-                            role="img"
-                            aria-label="Digital lock interface concept"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC9VGQahp3VGpyWfLfVwGabu_bpabJMLkC-6BradAC8Vx_CpXKCOg6D1HCqddCtVKfnAMJmuk3lsHn96-XynkvMuvlw7WGHxZeGoI1S5ipQZy_Hg_g9TA-llcldGSCEEl2baGIUj4DZcrXPazwXeVSDZGpbMAztpWQt-pMsnEoNR4RQMQx9vbucfZ2mPPKH-5Z9dbuT2vT0v5WFddl07shFAqXmFUNsRzrwGbB0gF5oQRB0NmA2JJZ8Y-iACfiHKvBxqGkXAJ7_tc1p');">
-                        </div>
-                    </div>
-                    <div class="px-4 pb-6 flex flex-col flex-1">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">NetPacket Sniffer</h3>
-                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="#" aria-label="Open NetPacket Sniffer project">
-                                <span class="material-symbols-outlined text-xl">open_in_new</span>
-                            </a>
-                        </div>
-                        <p class="font-serif text-sm text-ink/70 dark:text-paper/70 mb-4 line-clamp-3">
-                            A lightweight network packet analyzer built from scratch. Detects suspicious traffic patterns and logs potential vulnerabilities in real-time.
-                        </p>
-                        <div class="mt-auto flex flex-wrap gap-2">
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">C++</span>
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Wireshark</span>
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Networking</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Project Card 3: Prompt Engineer Guide -->
-                <article class="animate-on-scroll stagger-3 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
-                    <div class="w-full aspect-video bg-gray-100 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative">
                         <div class="absolute top-2 right-2 z-10">
                             <span class="material-symbols-outlined text-white drop-shadow-md">smart_toy</span>
                         </div>
                         <div
                             class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
                             role="img"
-                            aria-label="Neural network nodes connecting"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVsLcRX68VaNUEsNoa2kLvsiaUOj2vSVpqP-fdfAGW4mPol0kg9BXosLAaI9CeAOBjUxJKA5AVLtSgkXRjTkj7QhGuuHTGEokok7AfBWBKLxMRO4ncdynY7lDhmFqq1YavUq1PZEvgekzyO6OaVfZhrg4hmCmVrMYvkLNJnW3dREiv-WjLBnQ6V-_e6STdwDk9cOV0lJXtfWF92r-o07J0a641r3mUFDpe0QFcBuMFxCPBs4Gbau1lwAMHffxgTH1RV8bpHP4Ow23q');">
+                            aria-label="Squish app preview"
+                            style="background-image: url('assets/projects/hero-squish.png');">
                         </div>
-                    </div>
+                    </button>
                     <div class="px-4 pb-6 flex flex-col flex-1">
                         <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">Prompt Engineer Guide</h3>
-                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="#" aria-label="Open Prompt Engineer Guide project">
+                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">Squish</h3>
+                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="https://github.com/danieljcheung/Squish" target="_blank" rel="noopener noreferrer" aria-label="Open Squish GitHub repository">
                                 <span class="material-symbols-outlined text-xl">open_in_new</span>
                             </a>
                         </div>
                         <p class="font-serif text-sm text-ink/70 dark:text-paper/70 mb-4 line-clamp-3">
-                            An open-source repository and interactive website documenting advanced prompt engineering techniques for developers building on top of LLMs.
+                            A mobile app that lets you create personalized AI coaching agents through friendly conversation. Each agent is an adorable, interactive slime character that helps with fitness tracking, budgeting, and more.
                         </p>
                         <div class="mt-auto flex flex-wrap gap-2">
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">React</span>
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Markdown</span>
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Vercel</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Expo</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">TypeScript</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Supabase</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Claude API</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project Card 2: Tidy -->
+                <article class="animate-on-scroll stagger-2 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
+                    <button
+                        class="w-full aspect-video bg-gray-100 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative gallery-trigger"
+                        data-project="tidy"
+                        data-images='["assets/projects/hero-tidy.png","assets/projects/1-tidy.png","assets/projects/2-tidy.png","assets/projects/3-tidy.png","assets/projects/4-tidy.png"]'
+                        aria-label="View Tidy gallery (5 images)"
+                    >
+                        <!-- Image count badge -->
+                        <div class="absolute top-2 left-2 z-10 bg-ink/70 dark:bg-paper/70 text-paper dark:text-ink text-xs font-mono px-2 py-1 rounded flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">photo_library</span>
+                            <span>5 images</span>
+                        </div>
+                        <div class="absolute top-2 right-2 z-10">
+                            <span class="material-symbols-outlined text-white drop-shadow-md">photo_camera</span>
+                        </div>
+                        <div
+                            class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                            role="img"
+                            aria-label="Tidy app preview"
+                            style="background-image: url('assets/projects/hero-tidy.png');">
+                        </div>
+                    </button>
+                    <div class="px-4 pb-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">Tidy</h3>
+                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="https://github.com/danieljcheung/tidy-ios" target="_blank" rel="noopener noreferrer" aria-label="Open Tidy GitHub repository">
+                                <span class="material-symbols-outlined text-xl">open_in_new</span>
+                            </a>
+                        </div>
+                        <p class="font-serif text-sm text-ink/70 dark:text-paper/70 mb-4 line-clamp-3">
+                            A privacy-first iOS photo cleaner with swipe gestures. Quickly decide which photos to keep, delete, or save for later. 100% offline, zero analytics — your photos never leave your device.
+                        </p>
+                        <div class="mt-auto flex flex-wrap gap-2">
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Swift</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">SwiftUI</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">PhotoKit</span>
                         </div>
                     </div>
                 </article>
@@ -520,6 +510,63 @@
                     <span class="border-b border-ink/10 dark:border-paper/10 group-hover:border-primary/50 transition-colors pb-0.5 flex-1">github.com/danieljcheung</span>
                 </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Image Gallery Modal -->
+    <div
+        id="gallery-modal"
+        class="fixed inset-0 z-[70] hidden items-center justify-center"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Image gallery"
+    >
+        <!-- Backdrop -->
+        <div id="gallery-backdrop" class="absolute inset-0 bg-ink/90 dark:bg-ink/95 opacity-0"></div>
+
+        <!-- Gallery Content -->
+        <div id="gallery-content" class="relative w-full h-full flex items-center justify-center opacity-0">
+            <!-- Close Button -->
+            <button
+                id="gallery-close"
+                class="absolute top-4 right-4 z-20 text-paper/80 hover:text-paper transition-colors p-2 rounded-full bg-ink/20 hover:bg-ink/40"
+                aria-label="Close gallery"
+            >
+                <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
+
+            <!-- Image Counter -->
+            <div id="gallery-counter" class="absolute top-4 left-4 z-20 font-mono text-sm text-paper/80 bg-ink/40 px-3 py-1.5 rounded">
+                1 / 7
+            </div>
+
+            <!-- Previous Button -->
+            <button
+                id="gallery-prev"
+                class="absolute left-4 z-20 text-paper/80 hover:text-paper transition-colors p-3 rounded-full bg-ink/20 hover:bg-ink/40"
+                aria-label="Previous image"
+            >
+                <span class="material-symbols-outlined text-3xl">chevron_left</span>
+            </button>
+
+            <!-- Image Container -->
+            <div id="gallery-image-container" class="relative max-w-[90vw] max-h-[85vh] flex items-center justify-center">
+                <img
+                    id="gallery-image"
+                    src=""
+                    alt="Gallery image"
+                    class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+                />
+            </div>
+
+            <!-- Next Button -->
+            <button
+                id="gallery-next"
+                class="absolute right-4 z-20 text-paper/80 hover:text-paper transition-colors p-3 rounded-full bg-ink/20 hover:bg-ink/40"
+                aria-label="Next image"
+            >
+                <span class="material-symbols-outlined text-3xl">chevron_right</span>
+            </button>
         </div>
     </div>
 
