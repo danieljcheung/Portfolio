@@ -455,6 +455,40 @@
     }
 
     // ============================================
+    // Typewriter Effect for Name
+    // ============================================
+    var typewriterName = document.getElementById('typewriter-name');
+    var typewriterCursor = document.getElementById('typewriter-cursor');
+    var nameText = 'DANIEL CHEUNG';
+    var typewriterIndex = 0;
+
+    function typeWriter() {
+        if (!typewriterName) return;
+
+        if (typewriterIndex < nameText.length) {
+            typewriterName.textContent += nameText.charAt(typewriterIndex);
+            typewriterIndex++;
+            setTimeout(typeWriter, 100);
+        } else {
+            // Start cursor blink after typing is done
+            if (typewriterCursor && typeof anime !== 'undefined') {
+                anime({
+                    targets: typewriterCursor,
+                    opacity: [1, 0],
+                    duration: 530,
+                    loop: true,
+                    easing: 'steps(2)'
+                });
+            }
+        }
+    }
+
+    // Start typewriter on page load with a delay
+    if (typewriterName) {
+        setTimeout(typeWriter, 800);
+    }
+
+    // ============================================
     // Contact Modal
     // ============================================
     var contactModal = document.getElementById('contact-modal');
