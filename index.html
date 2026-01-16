@@ -373,7 +373,7 @@
             </div>
 
             <!-- Project Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <!-- Project Card 1: Squish -->
                 <article class="animate-on-scroll stagger-1 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
@@ -455,6 +455,46 @@
                         </div>
                     </div>
                 </article>
+
+                <!-- Project Card 3: TRACE -->
+                <article class="animate-on-scroll stagger-3 group bg-white dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.05)] hover:shadow-[6px_6px_0px_0px_rgba(46,125,50,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full" data-animation="fade-in-up">
+                    <button
+                        class="w-full bg-gray-100 dark:bg-ink/50 rounded overflow-hidden mb-4 border-b border-ink/5 dark:border-paper/5 relative gallery-trigger flex items-center justify-center p-4"
+                        data-project="trace"
+                        data-images='["assets/projects/hero-trace.png","assets/projects/1-trace.png","assets/projects/2-trace.png"]'
+                        aria-label="View TRACE gallery (3 images)"
+                    >
+                        <!-- Image count badge -->
+                        <div class="absolute top-2 left-2 z-10 bg-ink/70 dark:bg-paper/70 text-paper dark:text-ink text-xs font-mono px-2 py-1 rounded flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">photo_library</span>
+                            <span>3 images</span>
+                        </div>
+                        <div class="absolute top-2 right-2 z-10">
+                            <span class="material-symbols-outlined text-ink/40 dark:text-paper/40">search</span>
+                        </div>
+                        <img
+                            src="assets/projects/hero-trace.png"
+                            alt="TRACE app preview"
+                            class="max-h-[280px] w-auto object-contain rounded-lg shadow-md group-hover:scale-105 transition-transform duration-500"
+                        />
+                    </button>
+                    <div class="px-4 pb-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-xl group-hover:text-primary transition-colors dark:text-paper">TRACE</h3>
+                            <a class="text-ink/40 dark:text-paper/40 hover:text-primary transition-colors" href="https://github.com/danieljcheung/TRACE" target="_blank" rel="noopener noreferrer" aria-label="Open TRACE GitHub repository">
+                                <span class="material-symbols-outlined text-xl">open_in_new</span>
+                            </a>
+                        </div>
+                        <p class="font-serif text-sm text-ink/70 dark:text-paper/70 mb-4">
+                            A self-assessment OSINT tool that helps you discover your digital exposure from just an email address. Find out what information is publicly available about you online.
+                        </p>
+                        <div class="mt-auto flex flex-wrap gap-2">
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">Python</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">JavaScript</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-primary bg-primary/5 px-2 py-1 rounded">OSINT</span>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
 
@@ -474,10 +514,7 @@
                 <div class="flex flex-col gap-6">
                     <!-- Social Links -->
                     <nav class="animate-on-scroll stagger-3 flex flex-wrap gap-4 md:gap-6" aria-label="Social links" data-animation="fade-in-up">
-                        <a class="font-mono text-sm hover:text-primary hover:underline underline-offset-4 decoration-primary decoration-2 transition-colors" href="#" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
                         <a class="font-mono text-sm hover:text-primary hover:underline underline-offset-4 decoration-primary decoration-2 transition-colors" href="https://github.com/danieljcheung" target="_blank" rel="noopener noreferrer">GITHUB</a>
-                        <a class="font-mono text-sm hover:text-primary hover:underline underline-offset-4 decoration-primary decoration-2 transition-colors" href="#" target="_blank" rel="noopener noreferrer">HACKTHEBOX</a>
-                        <a class="font-mono text-sm hover:text-primary hover:underline underline-offset-4 decoration-primary decoration-2 transition-colors" href="#" target="_blank" rel="noopener noreferrer">TWITTER</a>
                     </nav>
 
                     <!-- Copyright -->
